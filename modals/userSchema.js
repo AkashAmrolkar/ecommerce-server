@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from 'bcrypt';
+
 const {Schema} = mongoose
 const userSchema = new Schema({
     name: {
@@ -27,19 +29,15 @@ const userSchema = new Schema({
     address: {
         address: {
             type: String,
-            required: [true, 'Address is required']
         },
         city: {
             type: String,
-            required: [true, 'City is required']
         },
         state: {
             type: String,
-            required: [true, 'state is required']
         },
         postalcode: {
             type: String,
-            required: [true, 'Postal code is required'],
             validate: {
                 validator: function(v) {
                     return /^\d{6}$/.test(v); // Basic US postal code regex. Adjust if needed.
@@ -50,7 +48,6 @@ const userSchema = new Schema({
     },
     phoneNumber: {
         type: String,
-        required: [true, 'Phone number is required'],
         validate: {
             validator: function(v) {
                 return /^\+?[1-9]\d{1,14}$/.test(v); // E.164 format validation for international phone numbers.
@@ -59,10 +56,20 @@ const userSchema = new Schema({
         }
     },
     orders:{
-        type: schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Order'
     },
 },{ timestamps: true })
+
+userSchema.pre('save', async function(next){
+    if(!this.isModified('password')) return next();
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt)
+    } catch (error) {
+        next(error)
+    }
+} )
 
 const User = mongoose.model('User', userSchema)
 export default User

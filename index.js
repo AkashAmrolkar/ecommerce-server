@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import { connectToDB } from './db/connect.js'
+import userRoutes from './routes/userRoutes.js'
 dotenv.config()
 const app = express()
 
@@ -15,11 +16,6 @@ app.use(cors({
 const port = process.env.PORT || 5000
 const mongoUrl = process.env.MONGODB_URL
 
-
-app.get('/', (req, res)=>{
-    res.send('root')
-})
-
 app.listen(port, ()=>{
     try {
         connectToDB(mongoUrl);
@@ -29,4 +25,6 @@ app.listen(port, ()=>{
         console.log(error)
     }
 })
+
+app.use('/api/v1', userRoutes)
 
