@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import { connectToDB } from './db/connect.js'
 import userRoutes from './routes/userRoutes.js'
+import authRoutes from './routes/auth.js'
 dotenv.config()
 const app = express()
 
@@ -27,4 +28,5 @@ app.listen(port, ()=>{
 })
 
 app.use('/api/v1', userRoutes)
+app.use('api/v1', authRoutes)
 
