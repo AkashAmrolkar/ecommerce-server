@@ -8,17 +8,14 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
-    discountPercentage: {
+    offerinpercentage: {
         type: Number,
-        required: true
     },
     description: {
         type: String,
-        required: true
     },
     category: {
         type: String,
-        required: true
     },
     tags: [
         {
@@ -27,11 +24,9 @@ const productSchema = new Schema({
     ],
     stock: {
         type: Number,
-        required: true
     },
     brand: {
         type: String,
-        required: true
     },
     sku: {
         type: String,
