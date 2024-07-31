@@ -1,4 +1,10 @@
 import mongoose, { Schema } from "mongoose";
+const dimensionsSchema = new Schema({
+    height: { type: String },
+    width: { type: String },
+    depth: { type: String }
+}, { _id: false });
+
 const productSchema = new Schema({
     name: {
         type: String,
@@ -8,7 +14,7 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
-    offerinpercentage: {
+    offerInPercentage: {
         type: Number,
     },
     description: {
@@ -34,7 +40,16 @@ const productSchema = new Schema({
     },
     thumbnail: {
         type: String,
-        required: true
+    },
+    weight: {
+        type: String
+    },
+    dimensions: [dimensionsSchema],
+    warrantyInfo: {
+        type: String
+    },
+    returnPolicy: {
+        type: String
     },
     images: 
     [
